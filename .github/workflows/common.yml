@@ -1,3 +1,4 @@
+# .github/workflows/common.yml
 name: Common
 on:
   workflow_call:
@@ -36,23 +37,17 @@ jobs:
         run: |
           ./gradlew clean shadowJar --info --stacktrace
       -
-        name: Publish Modrinth
-        if: ${{ !inputs.is-snapshot }}
+        # 新增：上传到GitHub Release（仅在release事件时执行）
+        name: Upload to Release
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        uses: actions/upload-release-asset@v1
         env:
-          IS_SNAPSHOT: ${{ inputs.is-snapshot }}
-          CHANGE_LOG: ${{ inputs.change-log }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: |
-          ./gradlew modrinth modrinthSyncBody --info --stacktrace
-      -
-        name: Publish CurseForge
-        if: ${{ !inputs.is-snapshot }}
-        env:
-          IS_SNAPSHOT: ${{ inputs.is-snapshot }}
-          CHANGE_LOG: ${{ inputs.change-log }}
-          CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
-        run: |
-          ./gradlew curseforge --info --stacktrace
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/libs/I18nUpdateMod-${{ env.VERSION }}.jar
+          asset_name: I18nUpdateMod-${{ env.VERSION }}.jar
+          asset_content_type: application/java-archive
       -
         uses: actions/upload-artifact@v4
         with:
