@@ -1,13 +1,11 @@
 # 自动汉化更新模组Ⅲ
 
-[![Version](https://img.shields.io/github/v/release/CFPAOrg/I18nUpdateMod3?label=&logo=V&labelColor=E1F5FE&color=5D87BF&style=for-the-badge)](https://github.com/CFPAOrg/I18nUpdateMod3/tags)
-[![CurseForge](https://cf.way2muchnoise.eu/short_I18nUpdateMod.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/i18nupdatemod)
-[![Modrinth](https://img.shields.io/modrinth/dt/PWERr14M?label=&logo=Modrinth&labelColor=white&color=00AF5C&style=for-the-badge)](https://modrinth.com/mod/i18nupdatemod)
-[![License](https://img.shields.io/github/license/CFPAOrg/I18nUpdateMod3?label=&logo=c&style=for-the-badge&color=A8B9CC&labelColor=455A64)](https://github.com/CFPAOrg/I18nUpdateMod3/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/release/WingChunWong/I18nUpdateMod3?label=&logo=V&labelColor=E1F5FE&color=5D87BF&style=for-the-badge)](https://github.com/WingChunWong/I18nUpdateMod3/tags)
+[![License](https://img.shields.io/github/license/WingChunWong/I18nUpdateMod3?label=&logo=c&style=for-the-badge&color=A8B9CC&labelColor=455A64)](https://github.com/WingChunWong/I18nUpdateMod3/blob/main/LICENSE)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/CFPAOrg/I18nUpdateMod3/beta.yml?style=for-the-badge&label=&logo=Gradle&labelColor=388E3C)](https://github.com/CFPAOrg/I18nUpdateMod3/actions)
-[![Star](https://img.shields.io/github/stars/CFPAOrg/I18nUpdateMod3?label=&logo=GitHub&labelColor=black&color=FAFAFA&style=for-the-badge)](https://github.com/CFPAOrg/I18nUpdateMod3/stargazers)
+[![Star](https://img.shields.io/github/stars/WingChunWong/I18nUpdateMod3?label=&logo=GitHub&labelColor=black&color=FAFAFA&style=for-the-badge)](https://github.com/WingChunWong/I18nUpdateMod3/stargazers)
 
-[![Minecraft](https://cf.way2muchnoise.eu/versions/Minecraft_I18nUpdateMod_all.svg?badge_style=for_the_badge)](https://github.com/CFPAOrg/I18nUpdateMod3)
+[![Minecraft](https://cf.way2muchnoise.eu/versions/Minecraft_I18nUpdateMod_all.svg?badge_style=for_the_badge)](https://github.com/WingChunWong/I18nUpdateMod3)
 
 更现代的自动汉化更新模组。
 
@@ -16,14 +14,13 @@
 
 ## 下载
 
-- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/i18nupdatemod)
-- [Modrinth](https://modrinth.com/mod/i18nupdatemod)
+[GitHub Release](https://github.com/WingChunWong/I18nUpdateMod3/releases/latest)
 
 ## 支持的版本
 
-- Minecraft：1.6.1~1.21.11 都支持
+- Minecraft：1.12.2~1.21.11 都支持
 - Mod加载器：MinecraftForge、NeoForge、Fabric、Quilt 都支持
-- Java：8~21 都支持
+- Java：8~25 都支持
 
 仅仅需要在mods文件夹中放置本Mod的jar文件即可，Mod本身与各主流Minecraft版本、Mod Loader、Java版本均兼容，Mod本身不需要进行任何版本隔离。
 
