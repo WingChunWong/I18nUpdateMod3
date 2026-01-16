@@ -14,6 +14,9 @@
 
 ## 下载
 
+> [!IMPORTANT]
+> 这是一个**非官方版本**
+
 [GitHub Release](https://github.com/WingChunWong/I18nUpdateMod3/releases/latest)
 
 ## 支持的版本
