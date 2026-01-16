@@ -15,7 +15,7 @@
 ## 下载
 
 > [!IMPORTANT]
-> 这是一个**非官方版本**
+> 这是一个**非官方版本**，并且将下载源改为[Github](https://github.com/WingChunWong/MMLP-Mirror)
 
 [GitHub Release](https://github.com/WingChunWong/I18nUpdateMod3/releases/latest)
 
