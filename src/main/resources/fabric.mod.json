@@ -9,17 +9,23 @@
     ]
   },
   "name": "I18nUpdateMod",
-  "description": "Brand new Minecraft Mod Language Package update mod.",
+  "description": "Brand new Minecraft Mod Language Package update mod\nAn unofficial port to 1.21.11 & Change download source to Github",
   "contact": {
-    "homepage": "https://github.com/xfl03/I18nUpdateMod3",
-    "issues": "https://github.com/xfl03/I18nUpdateMod3/issues",
-    "sources": "https://github.com/xfl03/I18nUpdateMod3"
+    "homepage": "https://github.com/WingChunWong/I18nUpdateMod3",
+    "issues": "https://github.com/WingChunWong/I18nUpdateMod3/issues",
+    "sources": "https://github.com/WingChunWong/I18nUpdateMod3"
   },
   "authors": [
     {
       "name": "xfl03",
       "contact": {
         "homepage": "https://github.com/xfl03"
+      }
+    },
+    {
+      "name": "WingChunWong",
+      "contact": {
+        "homepage": "https://github.com/WingChunWong"
       }
     }
   ],
