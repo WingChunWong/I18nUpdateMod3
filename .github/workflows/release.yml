@@ -12,3 +12,26 @@ jobs:
       is-snapshot: false
       change-log: ${{ github.event.release.body }}
     secrets: inherit
+
+  upload-release:
+    name: Upload to Release
+    needs: build-release
+    if: success()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: I18nUpdateMod-Release-${{ github.run_number }}
+          path: ./artifacts
+
+      - name: List files for debugging
+        run: ls -la ./artifacts/
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./artifacts/*
+          tag_name: ${{ github.event.release.tag_name }}
