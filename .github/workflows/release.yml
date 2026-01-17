@@ -35,3 +35,42 @@ jobs:
         with:
           files: ./artifacts/*
           tag_name: ${{ github.event.release.tag_name }}
+
+  modrinth-upload:
+    name: Upload to Modrinth
+    needs: build-release
+    if: success()
+    runs-on: ubuntu-latest
+    environment: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: I18nUpdateMod-Release-${{ github.run_number }}
+          path: ./artifacts
+
+      - name: List files for debugging
+        run: ls -la ./artifacts/
+
+      - name: Upload to Modrinth
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CHANGE_LOG: ${{ github.event.release.body }}
+          IS_SNAPSHOT: false
+        run: |
+          # 复制JAR文件到build/libs目录，因为modrinth任务期望在那里找到文件
+          mkdir -p build/libs
+          cp ./artifacts/*.jar build/libs/
+          
+          # 运行modrinth上传任务
+          ./gradlew modrinth --info --stacktrace

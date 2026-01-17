@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.modrinth.minotaur") version "2.8.4"
 }
 
 group = "i18nupdatemod"
@@ -66,4 +67,19 @@ tasks.processResources {
             "version" to project.version,
         )
     }
+}
+
+val supportMinecraftVersions = project.properties["minecraft"].toString().split(",")
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("IzDNIzyN")
+    versionNumber.set("${project.version}")
+    versionName.set("I18nUpdateMod ${project.version}")
+    versionType.set("release")
+    uploadFile.set(tasks["shadowJar"])
+    gameVersions.set(supportMinecraftVersions)
+    loaders.set(listOf("fabric", "forge", "neoforge", "quilt"))
+    syncBodyFrom.set(rootProject.file("README.md").readText())
+    changelog.set(System.getenv("CHANGE_LOG"))
 }
