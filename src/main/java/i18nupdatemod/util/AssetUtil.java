@@ -45,34 +45,38 @@ public class AssetUtil {
     }
 
     public static String getFastestUrl() {
-        List<String> urls = new ArrayList<>(MIRRORS);
-        urls.add(CFPA_ASSET_ROOT);
+        List<String> urls = new ArrayList<>();
+        
+        // 根据地理位置选择源列表
+        if (GeoLocationUtil.isMainlandChina()) {
+            // 中国大陆：测速选择最快的国内源
+            urls.addAll(MIRRORS);
+            urls.add(CFPA_ASSET_ROOT);
+            Log.info("Testing domestic mirror sources for mainland China user...");
+        } else {
+            // 海外用户：直接使用 GitHub 源
+            urls.add("https://raw.githubusercontent.com/");
+            Log.info("Using GitHub source for overseas user...");
+        }
 
         ExecutorService executor = Executors.newFixedThreadPool(Math.max(urls.size(), 10));
         try {
             List<CompletableFuture<String>> futures = new ArrayList<>();
             for (String url : urls) {
-                CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+                futures.add(CompletableFuture.supplyAsync(() -> {
                     try {
                         return testUrlConnection(url);
                     } catch (IOException e) {
-                        return null; // 表示失败
+                        return null;
                     }
-                }, executor);
-                futures.add(future);
+                }, executor));
             }
 
-            // 阻塞等待最快完成且成功的任务
             String fastest = null;
             while (!futures.isEmpty()) {
-                CompletableFuture<Object> first = CompletableFuture.anyOf(futures.toArray(new CompletableFuture[0]));
-                fastest = (String) first.join();
-
-                // 移除已完成的 future
+                fastest = (String) CompletableFuture.anyOf(futures.toArray(new CompletableFuture[0])).join();
                 futures.removeIf(CompletableFuture::isDone);
-
                 if (fastest != null) {
-                    // 成功，取消其他任务
                     for (CompletableFuture<String> f : futures) {
                         f.cancel(true);
                     }
@@ -81,8 +85,7 @@ public class AssetUtil {
                 }
             }
 
-            // 全部失败，返回默认 URL
-            Log.info("All urls are unreachable, using CFPA_ASSET_ROOT");
+            Log.info("All sources unreachable, using CFPA_ASSET_ROOT as fallback");
             return CFPA_ASSET_ROOT;
 
         } finally {
