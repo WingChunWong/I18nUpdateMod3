@@ -5,67 +5,61 @@ import org.apache.commons.io.IOUtils;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class LocationDetectUtil {
     private static Boolean cached = null;
-
-    private static final List<GeoApi> GEO_APIS = Arrays.asList(
-            new GeoApi("Kugou", "https://mips.kugou.com/check/iscn", 
-                    response -> "1".equals(response.trim()) || "true".equalsIgnoreCase(response.trim())),
-            new GeoApi("IP.SB", "https://api.ip.sb/geoip",
-                    response -> response.contains("\"country_code\":\"CN\"") || response.contains("\"country_code\": \"CN\""))
-    );
+    
+    private static final String[][] GEO_APIS = {
+            {"Kugou", "https://mips.kugou.com/check/iscn"},
+            {"IP.SB", "https://api.ip.sb/geoip"}
+    };
 
     public static boolean isMainlandChina() {
         if (cached != null) {
             return cached;
         }
 
-        for (GeoApi api : GEO_APIS) {
-            Boolean result = tryApi(api);
+        for (String[] api : GEO_APIS) {
+            Boolean result = tryApi(api[0], api[1]);
             if (result != null) {
                 cached = result;
                 return cached;
             }
         }
         
-        // 所有 API 都失败，默认为 false
         cached = false;
         return false;
     }
 
-    private static Boolean tryApi(GeoApi api) {
+    private static Boolean tryApi(String name, String url) {
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(api.url).openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
-            int code = conn.getResponseCode();
             
-            if (code == 200) {
+            if (conn.getResponseCode() == 200) {
                 String response = IOUtils.toString(conn.getInputStream(), StandardCharsets.UTF_8);
-                boolean isChina = api.parser.test(response);
-                Log.info("Location Detected (" + api.name + " API): " + (isChina ? "Inside mainland China" : "Outside mainland China"));
+                boolean isChina = parseResponse(response);
+                Log.info("Location Detected (" + name + " API): " + (isChina ? "Inside mainland China" : "Outside mainland China"));
                 return isChina;
             }
         } catch (Exception e) {
-            Log.debug(api.name + " API detection failed: " + e.getMessage());
+            Log.debug(name + " API detection failed: " + e.getMessage());
         }
         return null;
     }
 
-    private static class GeoApi {
-        final String name;
-        final String url;
-        final Predicate<String> parser;
-
-        GeoApi(String name, String url, Predicate<String> parser) {
-            this.name = name;
-            this.url = url;
-            this.parser = parser;
+    private static boolean parseResponse(String response) {
+        response = response.trim();
+        // Kugou API 返回 "1" 或 "true"
+        if ("1".equals(response) || "true".equalsIgnoreCase(response)) {
+            return true;
         }
+        // IP.SB API 返回 JSON，检查 country_code
+        if (response.contains("\"country_code\":\"CN\"") || response.contains("\"country_code\": \"CN\"")) {
+            return true;
+        }
+        return false;
     }
 
     public static void resetCache() {
