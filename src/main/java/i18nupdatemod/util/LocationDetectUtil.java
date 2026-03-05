@@ -10,7 +10,7 @@ public class LocationDetectUtil {
     private static Boolean cached = null;
     
     private static final String[][] GEO_APIS = {
-            {"Kugou", "https://mips.kugou.com/check/iscn"},
+            {"Kugou", "https://mips.kugou.com/check/iscn?&format=json"},
             {"IP.SB", "https://api.ip.sb/geoip"}
     };
 
@@ -51,11 +51,11 @@ public class LocationDetectUtil {
 
     private static boolean parseResponse(String response) {
         response = response.trim();
-        // Kugou API 返回 "1" 或 "true"
-        if ("1".equals(response) || "true".equalsIgnoreCase(response)) {
+        // Kugou API JSON: {"flag": 1} 或 {"flag": true}
+        if (response.contains("\"flag\":1") || response.contains("\"flag\": 1") ||response.contains("\"flag\":true") || response.contains("\"flag\": true")) {
             return true;
         }
-        // IP.SB API 返回 JSON，检查 country_code
+        // IP.SB API JSON: {"country_code": "CN"}
         if (response.contains("\"country_code\":\"CN\"") || response.contains("\"country_code\": \"CN\"")) {
             return true;
         }
