@@ -48,15 +48,15 @@ public class AssetUtil {
         List<String> urls = new ArrayList<>();
         
         // 根据地理位置选择源列表
-        if (GeoLocationUtil.isMainlandChina()) {
+        if (LocationDetectUtil.isMainlandChina()) {
             // 中国大陆：测速选择最快的国内源
             urls.addAll(MIRRORS);
             urls.add(CFPA_ASSET_ROOT);
-            Log.info("Testing domestic mirror sources for mainland China user...");
+            Log.info("Inside mainland China: Testing mirrors...");
         } else {
             // 海外用户：直接使用 GitHub 源
             urls.add("https://raw.githubusercontent.com/");
-            Log.info("Using GitHub source for overseas user...");
+            Log.info("Outside mainland China: Using GitHub source...");
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(Math.max(urls.size(), 10));

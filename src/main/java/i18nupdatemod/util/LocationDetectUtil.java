@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 地理位置检查工具 - 判断用户是否位于中国大陆
  */
-public class GeoLocationUtil {
+public class LocationDetectUtil {
     private static final String GEO_API_URL = "https://mips.kugou.com/check/iscn";
     private static Boolean cached = null;
 
