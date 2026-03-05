@@ -23,6 +23,7 @@ import java.util.concurrent.*;
 
 public class AssetUtil {
     private static final String CFPA_ASSET_ROOT = "http://downloader1.meitangdehulu.com:22943/";
+    private static final String GITHUB = "https://raw.githubusercontent.com/";
     private static final List<String> MIRRORS;
 
     static {
@@ -54,7 +55,7 @@ public class AssetUtil {
             Log.info("Inside mainland China: Testing mirrors...");
         } else {
             // 海外用户：直接使用 GitHub 源
-            urls.add("https://raw.githubusercontent.com/");
+            urls.add(GITHUB);
             Log.info("Outside mainland China: Using GitHub source...");
         }
 
