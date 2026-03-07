@@ -91,9 +91,9 @@ public class I18nUpdateMod {
 
     private static String getResourcePackDescription(List<GameAssetDetail.AssetDownloadDetail> downloads) {
         return downloads.size() > 1 ?
-                String.format("该包由%s版本合并\n作者：CFPA团队及汉化项目贡献者",
+                String.format("該包由%s版本合併\n作者：CFPA團隊及漢化項目貢獻者",
                         downloads.stream().map(it -> it.targetVersion).collect(Collectors.joining("和"))) :
-                String.format("该包对应的官方支持版本为%s\n作者：CFPA团队及汉化项目贡献者",
+                String.format("該包對應的支持版本為%s\n作者：CFPA團隊及漢化項目貢獻者",
                         downloads.get(0).targetVersion);
 
     }

@@ -5,7 +5,6 @@
       "gameVersions": "[1.6.1,1.8.9]",
       "packFormat": 1,
       "convertFrom": [
-        "1.10.2",
         "1.12.2"
       ]
     },
@@ -13,7 +12,6 @@
       "gameVersions": "[1.9,1.10.2]",
       "packFormat": 2,
       "convertFrom": [
-        "1.10.2",
         "1.12.2"
       ]
     },
@@ -197,67 +195,67 @@
     {
       "targetVersion": "1.10.2",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-10-2.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.10.2.zip",
       "md5Filename": "1.10.2.md5"
     },
     {
       "targetVersion": "1.12.2",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.12.2.zip",
       "md5Filename": "1.12.2.md5"
     },
     {
       "targetVersion": "1.16",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-16.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.16.zip",
       "md5Filename": "1.16.md5"
     },
     {
       "targetVersion": "1.16",
       "loader": "Fabric",
-      "filename": "Minecraft-Mod-Language-Modpack-1-16-Fabric.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.16-Fabric.zip",
       "md5Filename": "1.16-fabric.md5"
     },
     {
       "targetVersion": "1.18",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-18.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.18.zip",
       "md5Filename": "1.18.md5"
     },
     {
       "targetVersion": "1.18",
       "loader": "Fabric",
-      "filename": "Minecraft-Mod-Language-Modpack-1-18-Fabric.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.18-Fabric.zip",
       "md5Filename": "1.18-fabric.md5"
     },
     {
       "targetVersion": "1.19",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-19.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.19.zip",
       "md5Filename": "1.19.md5"
     },
     {
       "targetVersion": "1.20",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-20.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.20.zip",
       "md5Filename": "1.20.md5"
     },
     {
       "targetVersion": "1.20",
       "loader": "Fabric",
-      "filename": "Minecraft-Mod-Language-Modpack-1-20-Fabric.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.20-Fabric.zip",
       "md5Filename": "1.20-fabric.md5"
     },
     {
       "targetVersion": "1.21",
       "loader": "Forge",
-      "filename": "Minecraft-Mod-Language-Modpack-1-21.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.21.zip",
       "md5Filename": "1.21.md5"
     },
     {
       "targetVersion": "1.21",
       "loader": "Fabric",
-      "filename": "Minecraft-Mod-Language-Modpack-1-21-Fabric.zip",
+      "filename": "Minecraft-Mod-Language-Modpack-1.21-Fabric.zip",
       "md5Filename": "1.21-fabric.md5"
     }
   ]
