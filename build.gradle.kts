@@ -1,8 +1,6 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.modrinth.minotaur") version "2.8.4"
-    id("io.github.CDAGaming.cursegradle") version "1.6.1"
 }
 
 group = "i18nupdatemod"
@@ -67,36 +65,5 @@ tasks.processResources {
         expand(
             "version" to project.version,
         )
-    }
-}
-
-val supportMinecraftVersions = project.properties["minecraft"].toString().split(",")
-
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("PWERr14M")
-    versionNumber.set("${project.version}")
-    versionName.set("I18nUpdateMod ${project.version}")
-    versionType.set("release")
-    uploadFile.set(tasks["shadowJar"])
-    gameVersions.set(supportMinecraftVersions)
-    loaders.set(listOf("fabric", "forge", "neoforge", "quilt"))
-    syncBodyFrom.set(rootProject.file("README.md").readText())
-    changelog.set(System.getenv("CHANGE_LOG"))
-}
-
-val curseForgeSpecialVersions = project.properties["curseforge"].toString().split(",")
-
-curseforge {
-    apiKey = if (System.getenv("CURSE_TOKEN") != null) System.getenv("CURSE_TOKEN") else "dummy"
-    project {
-        id = "297404"
-        releaseType = "release"
-        mainArtifact(tasks["shadowJar"]) {
-            this.displayName = "I18nUpdateMod ${project.version}"
-        }
-        gameVersionStrings.addAll(supportMinecraftVersions)
-        gameVersionStrings.addAll(curseForgeSpecialVersions)
-        changelog = if (System.getenv("CHANGE_LOG") != null) System.getenv("CHANGE_LOG") else "No change log"
     }
 }
