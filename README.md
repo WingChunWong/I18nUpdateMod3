@@ -11,6 +11,10 @@
 「[Minecraft 模組繁體中文語言包（Minecraft Mod Traditional Chinese Language Package）](https://github.com/flier268/Minecraft-Mod-Traditional-Chinese-Language-Package)」是由「[CFPAOrg](http://cfpa.team/)」團隊維護，並由「[flier268](https://github.com/flier268)」轉換為繁體中文的「自動漢化資源包」，可將部分 Mod 內文翻譯為繁體中文。  
 本模組用於自動下載、更新與套用「Minecraft 模組繁體中文語言包」。
 
+## 下載
+
+- [Github Release](https://github.com/WingChunWong/I18nUpdateMod3/releases/tag/v3.7.0)
+
 ## 支援的版本
 
 - Minecraft：1.6.1~1.21.11 皆支援
