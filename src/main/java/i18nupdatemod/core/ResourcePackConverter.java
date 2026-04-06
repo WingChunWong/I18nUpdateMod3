@@ -32,7 +32,7 @@ public class ResourcePackConverter {
         this.tmpFilePath = FileUtil.getTemporaryPath(filename);
     }
 
-    public void convert(int packFormat, String description) throws Exception {
+    public void convert(int packFormat, Integer minFormat, Integer maxFormat, String description) throws Exception {
         Set<String> fileList = new HashSet<>();
         try (ZipOutputStream zos = new ZipOutputStream(
                 Files.newOutputStream(tmpFilePath),
@@ -57,7 +57,7 @@ public class ResourcePackConverter {
                         InputStream is = zf.getInputStream(ze);
                         if (name.equalsIgnoreCase("pack.mcmeta")) {
                             //Convert pack.mcmeta
-                            zos.write(convertPackMeta(is, packFormat, description));
+                            zos.write(convertPackMeta(is, packFormat, minFormat, maxFormat, description));
                         } else {
                             //Copy other file
                             IOUtils.copy(is, zos);
@@ -74,13 +74,15 @@ public class ResourcePackConverter {
         }
     }
 
-    private byte[] convertPackMeta(InputStream is, int packFormat, String description) {
+    private byte[] convertPackMeta(InputStream is, int packFormat, Integer minFormat, Integer maxFormat, String description) {
         PackMeta meta = GSON.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), PackMeta.class);
-        meta.pack.pack_format = packFormat;
-        if (packFormat > 64) {
-            meta.pack.min_format = packFormat;
-            meta.pack.max_format = packFormat;
+        // 从 pack_format 69 (1.21.9) 开始，只用 min_format/max_format，不再使用 pack_format
+        if (packFormat >= 69) {
+            meta.pack.pack_format = null;
+            meta.pack.min_format = minFormat != null ? minFormat : packFormat;
+            meta.pack.max_format = maxFormat != null ? maxFormat : packFormat;
         } else {
+            meta.pack.pack_format = packFormat;
             meta.pack.min_format = null;
             meta.pack.max_format = null;
         }
@@ -92,7 +94,7 @@ public class ResourcePackConverter {
         Pack pack;
 
         private static class Pack {
-            int pack_format;
+            Integer pack_format;  // 改为 Integer，支持 null
             Integer min_format;
             Integer max_format;
             String description;

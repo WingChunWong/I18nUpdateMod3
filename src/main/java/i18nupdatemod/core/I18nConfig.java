@@ -72,6 +72,8 @@ public class I18nConfig {
         }
 
         ret.covertPackFormat = convert.packFormat;
+        ret.minFormat = convert.minFormat;
+        ret.maxFormat = convert.maxFormat;
         ret.covertFileName =
                 String.format("Minecraft-Mod-Language-Modpack-Converted-%s.zip", minecraftVersion);
         return ret;

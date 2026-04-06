@@ -75,7 +75,7 @@ public class I18nUpdateMod {
                 FileUtil.setTemporaryDirPath(Paths.get(localStorage, "." + MOD_ID, minecraftVersion));
                 applyFileName = assets.covertFileName;
                 ResourcePackConverter converter = new ResourcePackConverter(languagePacks, applyFileName);
-                converter.convert(assets.covertPackFormat, getResourcePackDescription(assets.downloads));
+                converter.convert(assets.covertPackFormat, assets.minFormat, assets.maxFormat, getResourcePackDescription(assets.downloads));
             }
 
             //Apply resource pack
