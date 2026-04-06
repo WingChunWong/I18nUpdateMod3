@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 public class AssetUtil {
     private static final String CFPA_ASSET_ROOT = "http://downloader1.meitangdehulu.com:22943/";
@@ -45,51 +46,30 @@ public class AssetUtil {
     }
 
     public static String getFastestUrl() {
-        List<String> urls = new ArrayList<>();
-        
-        // 根据地理位置选择源列表
-        if (LocationDetectUtil.isMainlandChina()) {
-            // 中国大陆：测速选择最快的国内源
-            urls.addAll(MIRRORS);
-            urls.add(CFPA_ASSET_ROOT);
-            Log.info("Inside mainland China: Testing mirrors...");
-        } else {
-            // 海外用户：直接使用 GitHub 源
-            urls.add(GITHUB);
-            Log.info("Outside mainland China: Using GitHub source...");
+        // 海外用户直接用 GitHub，不测速
+        if (!LocationDetectUtil.isMainlandChina()) {
+            Log.info("Outside mainland China: Using GitHub source");
+            return GITHUB;
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(Math.max(urls.size(), 10));
+        // 中国大陆：测速选择最快的国内源
+        Log.info("Inside mainland China: Testing mirrors...");
+        List<String> urls = new ArrayList<>(MIRRORS);
+        urls.add(CFPA_ASSET_ROOT);
+
+        ExecutorService executor = Executors.newCachedThreadPool();
         try {
-            List<CompletableFuture<String>> futures = new ArrayList<>();
-            for (String url : urls) {
-                futures.add(CompletableFuture.supplyAsync(() -> {
-                    try {
-                        return testUrlConnection(url);
-                    } catch (IOException e) {
-                        return null;
-                    }
-                }, executor));
-            }
-
-            String fastest = null;
-            while (!futures.isEmpty()) {
-                fastest = (String) CompletableFuture.anyOf(futures.toArray(new CompletableFuture[0])).join();
-                futures.removeIf(CompletableFuture::isDone);
-                if (fastest != null) {
-                    for (CompletableFuture<String> f : futures) {
-                        f.cancel(true);
-                    }
-                    Log.info("Using fastest url: %s", fastest);
-                    return fastest;
-                }
-            }
-
+            String fastest = executor.invokeAny(
+                urls.stream().map(url -> (Callable<String>) () -> testUrlConnection(url)).collect(Collectors.toList()),
+                10, TimeUnit.SECONDS
+            );
+            executor.shutdownNow();
+            Log.info("Using fastest url: %s", fastest);
+            return fastest;
+        } catch (Exception e) {
+            executor.shutdownNow();
             Log.info("All sources unreachable, using CFPA_ASSET_ROOT as fallback");
             return CFPA_ASSET_ROOT;
-
-        } finally {
-            executor.shutdownNow();
         }
     }
 
