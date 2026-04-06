@@ -2,6 +2,7 @@ package i18nupdatemod.core;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import i18nupdatemod.entity.GameMetaData;
 import i18nupdatemod.util.FileUtil;
 import i18nupdatemod.util.Log;
 import org.apache.commons.io.IOUtils;
@@ -32,7 +33,7 @@ public class ResourcePackConverter {
         this.tmpFilePath = FileUtil.getTemporaryPath(filename);
     }
 
-    public void convert(Integer packFormat, Integer minFormat, Integer maxFormat, String description) throws Exception {
+    public void convert(GameMetaData metaData, String description) throws Exception {
         Set<String> fileList = new HashSet<>();
         try (ZipOutputStream zos = new ZipOutputStream(
                 Files.newOutputStream(tmpFilePath),
@@ -57,7 +58,7 @@ public class ResourcePackConverter {
                         InputStream is = zf.getInputStream(ze);
                         if (name.equalsIgnoreCase("pack.mcmeta")) {
                             //Convert pack.mcmeta
-                            zos.write(convertPackMeta(is, packFormat, minFormat, maxFormat, description));
+                            zos.write(convertPackMeta(is, metaData, description));
                         } else {
                             //Copy other file
                             IOUtils.copy(is, zos);
@@ -74,15 +75,15 @@ public class ResourcePackConverter {
         }
     }
 
-    private byte[] convertPackMeta(InputStream is, Integer packFormat, Integer minFormat, Integer maxFormat, String description) {
+    private byte[] convertPackMeta(InputStream is, GameMetaData metaData, String description) {
         PackMeta meta = GSON.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), PackMeta.class);
         // 1.21.9+ 使用 min_format/max_format，不再使用 pack_format
-        if (minFormat != null && maxFormat != null) {
+        if (metaData.useNewFormat()) {
             meta.pack.pack_format = null;
-            meta.pack.min_format = minFormat;
-            meta.pack.max_format = maxFormat;
+            meta.pack.min_format = metaData.minFormat;
+            meta.pack.max_format = metaData.maxFormat;
         } else {
-            meta.pack.pack_format = packFormat;
+            meta.pack.pack_format = metaData.packFormat;
             meta.pack.min_format = null;
             meta.pack.max_format = null;
         }
