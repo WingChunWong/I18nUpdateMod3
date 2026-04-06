@@ -51,18 +51,7 @@ public class LocationDetectUtil {
 
     private static boolean parseResponse(String response) {
         response = response.trim();
-        // Kugou API JSON: {"flag": 1} 或 {"flag": true}
-        if (response.contains("\"flag\":1") || response.contains("\"flag\": 1") ||response.contains("\"flag\":true") || response.contains("\"flag\": true")) {
-            return true;
-        }
-        // IP.SB API JSON: {"country_code": "CN"}
-        if (response.contains("\"country_code\":\"CN\"") || response.contains("\"country_code\": \"CN\"")) {
-            return true;
-        }
-        return false;
-    }
-
-    public static void resetCache() {
-        cached = null;
+        // Kugou: {"flag":1/true} | IP.SB: {"country_code":"CN"}
+        return response.matches(".*(\"flag\".*[\":] *(1|true)|\"country_code\".*\"CN\").*");
     }
 }
