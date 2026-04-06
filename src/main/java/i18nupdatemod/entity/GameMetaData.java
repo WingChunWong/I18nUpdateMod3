@@ -4,8 +4,8 @@ import java.util.List;
 
 public class GameMetaData {
     public String gameVersions;
-    public int packFormat;
-    public Integer minFormat;  // 可选，用于 pack_format >= 69 的版本范围
-    public Integer maxFormat;  // 可选，用于 pack_format >= 69 的版本范围
+    public Integer packFormat;     // 旧格式，用于 1.21.8 及之前
+    public Integer minFormat;      // 新格式，用于 1.21.9 及之后
+    public Integer maxFormat;      // 新格式，用于 1.21.9 及之后
     public List<String> convertFrom;
 }

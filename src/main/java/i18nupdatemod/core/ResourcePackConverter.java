@@ -32,7 +32,7 @@ public class ResourcePackConverter {
         this.tmpFilePath = FileUtil.getTemporaryPath(filename);
     }
 
-    public void convert(int packFormat, Integer minFormat, Integer maxFormat, String description) throws Exception {
+    public void convert(Integer packFormat, Integer minFormat, Integer maxFormat, String description) throws Exception {
         Set<String> fileList = new HashSet<>();
         try (ZipOutputStream zos = new ZipOutputStream(
                 Files.newOutputStream(tmpFilePath),
@@ -74,13 +74,13 @@ public class ResourcePackConverter {
         }
     }
 
-    private byte[] convertPackMeta(InputStream is, int packFormat, Integer minFormat, Integer maxFormat, String description) {
+    private byte[] convertPackMeta(InputStream is, Integer packFormat, Integer minFormat, Integer maxFormat, String description) {
         PackMeta meta = GSON.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), PackMeta.class);
-        // 从 pack_format 69 (1.21.9) 开始，只用 min_format/max_format，不再使用 pack_format
-        if (packFormat >= 69) {
+        // 1.21.9+ 使用 min_format/max_format，不再使用 pack_format
+        if (minFormat != null && maxFormat != null) {
             meta.pack.pack_format = null;
-            meta.pack.min_format = minFormat != null ? minFormat : packFormat;
-            meta.pack.max_format = maxFormat != null ? maxFormat : packFormat;
+            meta.pack.min_format = minFormat;
+            meta.pack.max_format = maxFormat;
         } else {
             meta.pack.pack_format = packFormat;
             meta.pack.min_format = null;
